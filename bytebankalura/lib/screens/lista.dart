@@ -1,5 +1,6 @@
 import 'package:bytebankalura/models/transferencia.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'form.dart';
 
@@ -43,11 +44,9 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
   }
 
   void _atualiza(Transferencia transferenciaRecebida) {
-    if (transferenciaRecebida != null) {
-      setState(() {
-        widget._transferencias.add(transferenciaRecebida);
-      });
-    }
+    setState(() {
+      widget._transferencias.add(transferenciaRecebida);
+    });
   }
 }
 
@@ -58,10 +57,12 @@ class ItemTransferencia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formatacaoReal =
+        NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
     return Card(
         child: ListTile(
       leading: Icon(Icons.monetization_on),
-      title: Text(_transferencia.valor.toString()),
+      title: Text(formatacaoReal.format(_transferencia.valor).toString()),
       subtitle: Text(_transferencia.numConta.toString()),
     ));
   }

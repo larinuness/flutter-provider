@@ -8,7 +8,6 @@ const _dicaCampoValor = '0.00';
 const _rotuloCampoNumeroConta = 'Número da conta';
 const _dicaCampoNumeroConta = '0000';
 
-
 class FormularioTransferencia extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -18,7 +17,7 @@ class FormularioTransferencia extends StatefulWidget {
 
 class FormularioTransferenciaState extends State<FormularioTransferencia> {
   final TextEditingController _controladorCampoNumeroConta =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
 
   @override
@@ -43,7 +42,7 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
                 icone: Icons.monetization_on,
               ),
               ElevatedButton(
-                child: Text('Confirmar'),
+                child: Text('Confirmar', style: TextStyle(fontSize: 20)),
                 onPressed: () {
                   _criaTransferencia(context);
                 },

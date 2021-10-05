@@ -25,7 +25,7 @@ class Editor extends StatelessWidget {
             icon: icone != null
                 ? Icon(
                     icone,
-                    color: Colors.green,
+                    color: Colors.yellow,
                   )
                 : null,
             //Mudando cor da linha da label embaixo
