@@ -1,21 +1,18 @@
-import 'package:bytebankalura/components/editor.dart';
-import 'package:bytebankalura/models/transferencia.dart';
+import 'package:bytebankalura/models/saldo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../components/editor.dart';
+import '../models/transferencia.dart';
+import '../models/transferencias.dart';
 
 const _tituloAppBar = 'Criando Transferência';
 const _rotuloCampoValor = 'Valor';
-const _dicaCampoValor = '0.00';
+const _dicaCampoValor = '0,00';
 const _rotuloCampoNumeroConta = 'Número da conta';
 const _dicaCampoNumeroConta = '0000';
 
-class FormularioTransferencia extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return FormularioTransferenciaState();
-  }
-}
-
-class FormularioTransferenciaState extends State<FormularioTransferencia> {
+class FormTransferencia extends StatelessWidget {
   final TextEditingController _controladorCampoNumeroConta =
       TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
@@ -61,9 +58,26 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
   void _criaTransferencia(BuildContext context) {
     final int? numConta = int.tryParse(_controladorCampoNumeroConta.text);
     final double? valor = double.tryParse(_controladorCampoValor.text);
-    if (numConta != null && valor != null) {
-      final transferenciaCriada = Transferencia(valor, numConta);
-      Navigator.pop(context, transferenciaCriada);
+    final transferenciaValida = _validaTransferencia(numConta, valor, context);
+
+    if (transferenciaValida) {
+      final novaTransferencia = Transferencia(valor!, numConta!);
+      _atualizaEstado(context, novaTransferencia, valor);
+      Navigator.pop(context);
     }
+  }
+
+  _validaTransferencia(numConta, valor, context) {
+    final _camposPreenchidos = numConta != null && valor != null;
+    final _saldoSuficiente =
+        valor <= Provider.of<Saldo>(context, listen: false).valor;
+
+    return _camposPreenchidos && _saldoSuficiente;
+  }
+
+  _atualizaEstado(context, novaTransferencia, valor) {
+    Provider.of<Transferencias>(context, listen: false)
+        .adicionaItem(novaTransferencia);
+    Provider.of<Saldo>(context, listen: false).remove(valor);
   }
 }

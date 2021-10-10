@@ -3,8 +3,12 @@ class Transferencia {
   final int numConta;
 
   Transferencia(this.valor, this.numConta);
-  @override
-  String toString() {
-    return 'Transferencia{valor: $valor, numeroConta: $numConta}';
+
+  String toStringValor() {
+    return '$valor';
+  }
+
+  String toStringConta() {
+    return 'Conta: $numConta';
   }
 }
